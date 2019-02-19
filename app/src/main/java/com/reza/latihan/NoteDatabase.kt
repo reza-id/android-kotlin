@@ -30,12 +30,14 @@ abstract class NoteDatabase : RoomDatabase() {
                 NoteDatabase::class.java, "note_database"
             )
                 .fallbackToDestructiveMigration()
+                .addCallback(roomCallback) // executed on database first creation
                 .build()
 
         private val roomCallback = object : RoomDatabase.Callback() {
             // CTRL + O
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
+                PopulateDbAsyncTask(instance!!).execute()
             }
         }
     }
