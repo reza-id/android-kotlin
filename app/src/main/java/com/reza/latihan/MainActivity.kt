@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,6 +40,18 @@ class MainActivity : AppCompatActivity() {
             if (it != null)
                 adapter.setNotes(it)
         })
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
+                noteViewModel.delete(adapter.getNoteAt(viewHolder.adapterPosition))
+                Toast.makeText(this@MainActivity, "Note deleted.", Toast.LENGTH_SHORT).show()
+            }
+        }).attachToRecyclerView(rv_notes)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

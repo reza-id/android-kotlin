@@ -21,6 +21,8 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getNoteAt(position: Int) = notes[position]
+
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         holder.bindView(notes[position])
     }
