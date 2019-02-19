@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_edit_note.*
 class EditNoteActivity : AppCompatActivity() {
 
     companion object {
+        const val EXTRA_ID = "com.reza.latihan.EXTRA_ID"
         const val EXTRA_TITLE = "com.reza.latihan.EXTRA_TITLE"
         const val EXTRA_DESCRIPTION = "com.reza.latihan.EXTRA_DESCRIPTION"
         const val EXTRA_PRIORITY = "com.reza.latihan.EXTRA_PRIORITY"

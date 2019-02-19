@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_note.view.*
 
 
-class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+class NoteAdapter(private val listener: (Note) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     private var notes: List<Note> = arrayListOf()
 
@@ -24,14 +24,15 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     fun getNoteAt(position: Int) = notes[position]
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.bindView(notes[position])
+        holder.bindView(notes[position], listener)
     }
 
     class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(note: Note) {
+        fun bindView(note: Note, listener: (Note) -> Unit) {
             itemView.tv_title.text = note.title
             itemView.tv_description.text = note.description
             itemView.tv_priority.text = note.priority.toString()
+            itemView.setOnClickListener { listener(note) }
         }
     }
 }

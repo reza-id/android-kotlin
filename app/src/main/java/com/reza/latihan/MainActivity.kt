@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val REQ_ADD_NOTE = 1
+        const val REQ_EDIT_NOTE = 2
     }
 
     private lateinit var noteViewModel: NoteViewModel
@@ -26,7 +27,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = NoteAdapter()
+        val adapter = NoteAdapter {
+            val intent = Intent(this@MainActivity, EditNoteActivity::class.java)
+                    .apply {
+                        putExtra(EditNoteActivity.EXTRA_ID, it.id)
+                        putExtra(EditNoteActivity.EXTRA_TITLE, it.title)
+                        putExtra(EditNoteActivity.EXTRA_DESCRIPTION, it.description)
+                        putExtra(EditNoteActivity.EXTRA_PRIORITY, it.priority)
+                    }
+            startActivityForResult(intent, REQ_EDIT_NOTE)
+        }
 
         rv_notes.layoutManager = LinearLayoutManager(this)
         rv_notes.setHasFixedSize(true)
