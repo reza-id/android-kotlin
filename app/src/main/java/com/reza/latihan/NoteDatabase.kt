@@ -1,9 +1,11 @@
 package com.reza.latihan
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import android.os.AsyncTask
 
 @Database(entities = [Note::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
@@ -29,5 +31,26 @@ abstract class NoteDatabase : RoomDatabase() {
             )
                 .fallbackToDestructiveMigration()
                 .build()
+
+        private val roomCallback = object : RoomDatabase.Callback() {
+            // CTRL + O
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+            }
+        }
+    }
+
+
+    private class PopulateDbAsyncTask internal constructor(db: NoteDatabase) :
+        AsyncTask<Void, Void, Void>() {
+
+        private val noteDao: NoteDao = db.noteDao()
+
+        override fun doInBackground(vararg voids: Void): Void? {
+            noteDao.insert(Note("Title 1", "Description 1", 1))
+            noteDao.insert(Note("Title 2", "Description 2", 2))
+            noteDao.insert(Note("Title 3", "Description 3", 3))
+            return null
+        }
     }
 }
