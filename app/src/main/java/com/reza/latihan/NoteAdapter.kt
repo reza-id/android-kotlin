@@ -12,22 +12,13 @@ import kotlinx.android.synthetic.main.item_note.view.*
 class NoteAdapter(private val listener: (Note) -> Unit, diffCallback: DiffUtil.ItemCallback<Note>) :
         ListAdapter<Note, NoteAdapter.NoteHolder>(diffCallback) {
 
-    private var notes: List<Note> = arrayListOf()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder =
             NoteHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false))
 
-    override fun getItemCount() = notes.size
-
-    fun setNotes(notes: List<Note>) {
-        this.notes = notes
-        notifyDataSetChanged()
-    }
-
-    fun getNoteAt(position: Int) = notes[position]
+    fun getNoteAt(position: Int): Note = getItem(position)
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.bindView(notes[position], listener)
+        holder.bindView(getItem(position), listener)
     }
 
     class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
