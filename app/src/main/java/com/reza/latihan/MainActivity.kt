@@ -78,6 +78,22 @@ class MainActivity : AppCompatActivity() {
             noteViewModel.insert(note) // save operation in the ViewModel
 
             Toast.makeText(this, "Note saved.", Toast.LENGTH_SHORT).show()
+        } else if (requestCode == REQ_EDIT_NOTE && resultCode == RESULT_OK && data != null) {
+            val id = data.getIntExtra(EditNoteActivity.EXTRA_ID, -1)
+            if (id == -1) {
+                Toast.makeText(this, "Note can't be updated.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val title = data.getStringExtra(EditNoteActivity.EXTRA_TITLE)
+            val description = data.getStringExtra(EditNoteActivity.EXTRA_DESCRIPTION)
+            val priority = data.getIntExtra(EditNoteActivity.EXTRA_PRIORITY, 1)
+
+            val note = Note(title, description, priority)
+            note.id = id
+            noteViewModel.update(note)
+
+            Toast.makeText(this, "Note updated.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Note not saved.", Toast.LENGTH_SHORT).show()
         }
