@@ -1,13 +1,16 @@
 package com.reza.latihan
 
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_note.view.*
 
-
-class NoteAdapter(private val listener: (Note) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+// https://developer.android.com/reference/android/support/v7/util/DiffUtil
+class NoteAdapter(private val listener: (Note) -> Unit, diffCallback: DiffUtil.ItemCallback<Note>) :
+        ListAdapter<Note, NoteAdapter.NoteHolder>(diffCallback) {
 
     private var notes: List<Note> = arrayListOf()
 
