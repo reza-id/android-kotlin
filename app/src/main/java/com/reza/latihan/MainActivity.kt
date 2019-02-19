@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -68,6 +70,22 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Note saved.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Note not saved.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete_all_notes -> {
+                noteViewModel.deleteAllNotes()
+                Toast.makeText(this, "All notes deleted.", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
