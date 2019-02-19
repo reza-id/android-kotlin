@@ -1,12 +1,21 @@
 package com.reza.latihan
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_edit_note.*
 
 class EditNoteActivity : AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_TITLE = "com.reza.latihan.EXTRA_TITLE"
+        const val EXTRA_DESCRIPTION = "com.reza.latihan.EXTRA_DESCRIPTION"
+        const val EXTRA_PRIORITY = "com.reza.latihan.EXTRA_PRIORITY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +29,23 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun saveNote() {
+        val title = et_title.text.toString()
+        val description = et_description.text.toString()
+        val priority = np_priority.value
 
+        if (title.trim { it <= ' ' }.isEmpty() || description.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Please insert a title and description.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val data = Intent().apply {
+            putExtra(EXTRA_TITLE, title)
+            putExtra(EXTRA_DESCRIPTION, description)
+            putExtra(EXTRA_PRIORITY, priority)
+        }
+
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
