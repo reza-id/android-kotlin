@@ -9,8 +9,15 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_note.view.*
 
 // https://developer.android.com/reference/android/support/v7/util/DiffUtil
-class NoteAdapter(private val listener: (Note) -> Unit, diffCallback: DiffUtil.ItemCallback<Note>) :
-        ListAdapter<Note, NoteAdapter.NoteHolder>(diffCallback) {
+class NoteAdapter(private val listener: (Note) -> Unit) : ListAdapter<Note, NoteAdapter.NoteHolder>(object : DiffUtil.ItemCallback<Note>() {
+
+    override fun areItemsTheSame(oldItem: Note, newItem: Note) = oldItem.id == newItem.id
+
+    override fun areContentsTheSame(oldItem: Note, newItem: Note) =
+            oldItem.title == newItem.title
+                    && oldItem.description == newItem.description
+                    && oldItem.priority == newItem.priority
+}) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder =
             NoteHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false))

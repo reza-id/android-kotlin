@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         noteViewModel.allNotes.observe(this, Observer<List<Note>> {
             if (it != null)
-                adapter.setNotes(it)
+                adapter.submitList(it)
         })
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
